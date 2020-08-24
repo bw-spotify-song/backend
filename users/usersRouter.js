@@ -58,7 +58,9 @@ router.put("/:user_id", validateUserID, validateUser, (req, res) => {
   Users.update(updatedUser.user_id, updatedUser)
     .then((response) => {
       if (response === 0) {
-        res.status(500).json({ error: "error while updating user" });
+        res
+          .status(500)
+          .json({ error: "error while updating user", message: response });
       } else {
         res.status(200).json({ response });
       }

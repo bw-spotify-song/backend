@@ -6,6 +6,7 @@ const pgConnection =
 module.exports = {
   development: {
     client: "sqlite3",
+    useNullAsDefault: true,
     connection: {
       filename: "./database/songSuggester.db3",
     },

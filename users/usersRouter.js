@@ -13,8 +13,8 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", validateUserID, (req, res) => {
-  let requestedUser = req.params.id;
+router.get("/:user_id", validateUserID, (req, res) => {
+  let requestedUser = req.params.user_id;
 
   Users.findById(requestedUser)
     .then((response) => {
@@ -25,8 +25,8 @@ router.get("/:id", validateUserID, (req, res) => {
     });
 });
 
-router.delete("/:id", validateUserID, (req, res) => {
-  let requestedUser = req.params.id;
+router.delete("/:user_id", validateUserID, (req, res) => {
+  let requestedUser = req.params.user_id;
 
   Users.remove(requestedUser)
     .then((response) => {
@@ -46,16 +46,16 @@ router.delete("/:id", validateUserID, (req, res) => {
     });
 });
 
-router.put("/:id", validateUserID, validateUser, (req, res) => {
+router.put("/:user_id", validateUserID, validateUser, (req, res) => {
   let updatedUser = {
     email: req.body.email,
     password: req.body.password,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    id: req.params.id,
+    id: req.params.user_id,
   };
 
-  Users.update(updatedUser.id, updatedUser)
+  Users.update(updatedUser.user_id, updatedUser)
     .then((response) => {
       if (response === 0) {
         res.status(500).json({ error: "error while updating user" });

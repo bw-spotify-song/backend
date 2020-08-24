@@ -19,7 +19,7 @@ function validateUser(req, res, next) {
 }
 
 function validateUserID(req, res, next) {
-  let requestedUser = req.params.id;
+  let requestedUser = req.params.user_id;
 
   Users.findById(requestedUser)
     .then((response) => {

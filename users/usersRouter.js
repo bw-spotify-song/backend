@@ -63,8 +63,10 @@ router.put("/:user_id", validateUserID, validateUser, (req, res) => {
         res.status(200).json({ response });
       }
     })
-    .catch((response) => {
-      res.status(500).json({ error: "error while updating user" });
+    .catch((err) => {
+      res
+        .status(500)
+        .json({ error: "error while updating user", message: err.message });
     });
 });
 

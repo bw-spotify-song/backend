@@ -4,7 +4,7 @@ const constants = require("../configs/constants.js");
 
 module.exports = (req, res, next) => {
   // add code here to verify users are logged in
-  const token = req.headers.authorization || req.cookies.token;
+  const token = req.headers.authorization;
 
   if (token) {
     jwt.verify(token, constants.jwtSecret, (error, decodedToken) => {

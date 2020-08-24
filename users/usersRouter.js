@@ -55,14 +55,14 @@ router.put("/:user_id", validateUserID, validateUser, (req, res) => {
     id: req.params.user_id,
   };
 
-  Users.update(updatedUser.user_id, updatedUser)
+  Users.update(updatedUser.id, updatedUser)
     .then((response) => {
       if (response === 0) {
         res
           .status(500)
           .json({ error: "error while updating user", message: response });
       } else {
-        res.status(200).json({ response });
+        res.status(200).json({ data: response });
       }
     })
     .catch((err) => {

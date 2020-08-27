@@ -18,6 +18,20 @@ module.exports = {
     },
   },
 
+  testing: {
+    client: "sqlite3",
+    connection: {
+      filename: "./database/songSuggester.db3",
+    },
+    useNullAsDefault: true,
+    migrations: {
+      directory: "./database/migrations",
+    },
+    seeds: {
+      directory: "./database/seeds",
+    },
+  },
+
   staging: {
     client: "postgresql",
     connection: {

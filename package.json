@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env DB_ENV=testing jest --watch --runInBand --detectOpenHandles",
     "start": "node index.js",
     "server": "nodemon index.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "repository": {
     "type": "git",
@@ -20,6 +23,7 @@
   },
   "homepage": "https://github.com/bw-spotify-song/backend#readme",
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "nodemon": "^2.0.4"
   },
   "dependencies": {
@@ -28,9 +32,11 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^4.1.0",
+    "jest": "^26.4.2",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.5",
     "pg": "^8.3.2",
-    "sqlite3": "^5.0.0"
+    "sqlite3": "^5.0.0",
+    "supertest": "^4.0.2"
   }
 }

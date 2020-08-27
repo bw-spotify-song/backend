@@ -36,7 +36,7 @@ router.post("/:user_id", validateUserID, validateSong, (req, res) => {
 
   Songs.add(newSong)
     .then((response) => {
-      res.status(200).json(response);
+      res.status(201).json(response);
     })
     .catch((error) => {
       res

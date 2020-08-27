@@ -3,13 +3,9 @@ const request = require("supertest");
 const db = require("../database/dbConnection");
 
 describe("authRouter.js", () => {
-  beforeEach(async () => {
-    // this function executes and clears out the table before each test
-    await db("users").truncate();
-  });
-
+  const uniqueEmail = `name${Math.random()}@alex.com`;
   let newUser = {
-    email: "tommy@tester.com",
+    email: uniqueEmail,
     password: "password",
     firstName: "Tommy",
     lastName: "Tester",
@@ -20,17 +16,21 @@ describe("authRouter.js", () => {
     password: newUser.password,
   };
 
+  let responseReceived = {};
+
   describe("/register", () => {
     it("should return a 201 code on account registration", async () => {
       let response = await request(server).post("/auth/register").send(newUser);
+
+      console.log("register", response.status);
+
+      responseReceived = response.body.data;
 
       expect(response.status).toBe(201);
     });
 
     it("should return a user object on account registration", async () => {
-      let response = await request(server).post("/auth/register").send(newUser);
-
-      expect(response.body.data.id).toBeTruthy();
+      expect(responseReceived.id).toBeTruthy();
     });
   });
 

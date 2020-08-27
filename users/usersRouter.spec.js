@@ -3,8 +3,9 @@ const request = require("supertest");
 const db = require("../database/dbConnection");
 
 describe("usersRouter.js", () => {
+  const uniqueEmail = `name${Math.random()}@alex.com`;
   let newUser = {
-    email: "tommy@tester.com",
+    email: uniqueEmail,
     password: "password",
     firstName: "Tommy",
     lastName: "Tester",
@@ -18,20 +19,16 @@ describe("usersRouter.js", () => {
   let token = "";
   let id = "";
 
-  beforeEach(async () => {
-    // this function executes and clears out the table before each test
-    await db("users").truncate();
-    await request(server).post("/auth/register").send(newUser);
-    let login = await request(server)
-      .post("/auth/login")
-      .send(loginCredentials);
-
-    token = login.body.token;
-    id = login.body.userID;
-  });
-
-  describe("/", () => {
+  describe("GET /", () => {
     it("should return a status of 200", async () => {
+      await request(server).post("/auth/register").send(newUser);
+      let login = await request(server)
+        .post("/auth/login")
+        .send(loginCredentials);
+
+      token = login.body.token;
+      id = login.body.userID;
+
       let response = await request(server)
         .get("/users")
         .set("Authorization", token);
@@ -44,11 +41,11 @@ describe("usersRouter.js", () => {
         .get("/users")
         .set("Authorization", token);
 
-      expect(response.body).toHaveLength(1);
+      expect(response.body).toBeTruthy();
     });
   });
 
-  describe("/:user_id", () => {
+  describe("GET /:user_id", () => {
     it("should return a status of 200", async () => {
       let response = await request(server)
         .get(`/users/${id}`)
@@ -84,26 +81,6 @@ describe("usersRouter.js", () => {
     });
   });
 
-  describe("DELETE /:user_id", () => {
-    it("should return a status of 200", async () => {
-      let response = await request(server)
-        .delete(`/users/${id}`)
-        .set("Authorization", token);
-
-      expect(response.status).toBe(200);
-    });
-
-    it("should return an array of users", async () => {
-      let response = await request(server)
-        .delete(`/users/${id}`)
-        .set("Authorization", token);
-
-      expect(response.body.message).toEqual(
-        `User with ID ${id} has been deleted`
-      );
-    });
-  });
-
   describe("PUT /:user_id", () => {
     let updatedUser = {
       email: "req.body.email",
@@ -128,6 +105,16 @@ describe("usersRouter.js", () => {
         .set("Authorization", token);
 
       expect(response.body.data).toBeTruthy();
+    });
+  });
+
+  describe("DELETE /:user_id", () => {
+    it("should return a status of 200", async () => {
+      let response = await request(server)
+        .delete(`/users/${id}`)
+        .set("Authorization", token);
+
+      expect(response.status).toBe(200);
     });
   });
 });
